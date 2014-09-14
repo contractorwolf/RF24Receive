@@ -36,10 +36,9 @@ void setup(void)
 
 void loop(void)
 {
-    // if there is data ready
+    // check for available data
     if ( radio.available() )
     {
-      // Dump the payloads until we've gotten everything
       unsigned long received_message;
       bool done = false;
       while (!done)
@@ -47,7 +46,6 @@ void loop(void)
         // Fetch the payload, and see if this was the last one.
         done = radio.read( &received_message, sizeof(unsigned long) );
 
-        // Spew it
         Serial.print("Message received... ");
         Serial.println(received_message);
 
@@ -55,13 +53,13 @@ void loop(void)
 	//delay(20);
       }
 
-      // First, stop listening so we can talk
+      //stop listening to transmit
       radio.stopListening();
 
-      // Send the final one back.
+      //relay the message back to sender to confirm it was received
       radio.write( &received_message, sizeof(unsigned long) );
       
-      // Now, resume listening so we catch the next packets.
+      // resume listening
       radio.startListening();      
       
       //RESPOND TO COMMANDS HERE
