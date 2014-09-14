@@ -15,7 +15,7 @@ void setup(void)
 
   Serial.println();
   Serial.println("RF24 Receive started");
-  Serial.println("*** PRESS 'T' to begin transmitting to the other node\n\r");
+  Serial.println("waiting on incoming messages...");
 
   // Setup and configure rf radio
   radio.begin();
@@ -40,16 +40,16 @@ void loop(void)
     if ( radio.available() )
     {
       // Dump the payloads until we've gotten everything
-      unsigned long got_message;
+      unsigned long received_message;
       bool done = false;
       while (!done)
       {
         // Fetch the payload, and see if this was the last one.
-        done = radio.read( &got_message, sizeof(unsigned long) );
+        done = radio.read( &received_message, sizeof(unsigned long) );
 
         // Spew it
-        Serial.print("Got payload... ");
-        Serial.println(got_message);
+        Serial.print("Message received... ");
+        Serial.println(received_message);
 
 	// Delay to let the other unit transition to receiver
 	//delay(20);
@@ -59,7 +59,7 @@ void loop(void)
       radio.stopListening();
 
       // Send the final one back.
-      radio.write( &got_message, sizeof(unsigned long) );
+      radio.write( &received_message, sizeof(unsigned long) );
       
       // Now, resume listening so we catch the next packets.
       radio.startListening();      
@@ -67,7 +67,8 @@ void loop(void)
       //RESPOND TO COMMANDS HERE
       //************************
       
-      
+            
+      //************************
       
       Serial.println("Response Sent, returned to listening");
     }
