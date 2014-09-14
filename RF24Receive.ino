@@ -64,6 +64,11 @@ void loop(void)
       // Now, resume listening so we catch the next packets.
       radio.startListening();      
       
+      //RESPOND TO COMMANDS HERE
+      //************************
+      
+      
+      
       Serial.println("Response Sent, returned to listening");
     }
 }
