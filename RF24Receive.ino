@@ -52,7 +52,7 @@ void loop(void)
         Serial.println(got_message);
 
 	// Delay to let the other unit transition to receiver
-	delay(20);
+	//delay(20);
       }
 
       // First, stop listening so we can talk
